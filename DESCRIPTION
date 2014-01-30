@@ -1,0 +1,11 @@
+Package: SageBionetworksCoex
+Type: Package
+Title: Gene Coexpression
+Version: 0.12
+Date: 2011-08-27
+Author: Bruce Hoff
+Maintainer: Sage Bionetworks Scientific Computing <scicomp@sagebase.org>
+Description: Compute gene coexpression based on gene expression data.  Output includes coexpression modules, diagnostic plots and supporting statistics.  The package leverages the WGCNA package published to C-RAN by the UCLA Array Data Analysis Group, but includes parameter settings and custom functions to replicate the 'flavor' of the algorithm as executed at Sage Bionetworks.  The entry point for the package is 'performCoexFromFiles()'.  
+License: GPL
+LazyLoad: yes
+Imports: WGCNA, lattice, flashClust, dynamicTreeCut

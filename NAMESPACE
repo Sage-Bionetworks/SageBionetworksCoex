@@ -1,0 +1,7 @@
+useDynLib(SageBionetworksCoex)
+
+export(performCoexFromFiles, performCoexpressionAnalysis, clusterGenes, modulesFromGeneTree, intraModularStatistics, createDiagnosticPlots)
+
+import(WGCNA, lattice, flashClust, dynamicTreeCut)
+
+

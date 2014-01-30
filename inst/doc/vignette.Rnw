@@ -1,0 +1,54 @@
+% 
+\documentclass[a4paper]{article}
+\usepackage[OT1]{fontenc}
+\usepackage{Sweave}
+\begin{document}
+
+\title{Sage Bionetworks Coexpression Package}
+\author{Bruce Hoff}
+\date{\today}
+
+\maketitle
+This is the Vignette for the Sage Bionetworks Coexpression Package
+
+
+The main entry point for this package is performCoexFromFiles().  Alternatively one may call performCoexpressionAnalysis(), 
+and createDiagnosticPlots() directly, to perform the computation and generate the graphic output, respectively.
+
+An example:
+library(SageBionetworksCoex)
+results<-SageBionetworksCoex::performCoexFromFiles("C:/Program Files/R/library/SageBionetworksCoex/data/expressionData.txt")
+results\$fileList
+This lists the handles of the generated files:
+ScaleFree:  "Scale free" plot (P(k) vs. k) for optimum value of beta.
+CorHeatmap:  Heatmap of |cc|^beta, ordered according to dendrogram, with color-coded module membership along the margins.
+GeneDendrogram:  Gene dendrogram with color-coded modules and color names.
+TOMHeatmap:  Heatmap of TOM, rows and columns sorted by gene dendrogram.
+GenePCDendrogram:  Dendrogram of clusters of module representative genes.
+ExpressionHeatmap:  Heatmap of expression data, organized by gene and sample clusters.
+PowerTable:  Scale-free regression statistics (as produced by WGCNA::pickSoftThreshold()).
+Network:  The derived network, as described in the 'Details' section.
+GeneTree:  Gene dendrogram, an R object of the form returned by 'hclust'.
+
+Alternatively one may call performCoexpressionAnalysis(), and createDiagnosticPlots() directly, to perform the computation and generate the graphic output, respectively.
+Calling performCoexpressionAnalysis() directly (rather than through the performCoexFromFiles convenience function) allows choices of coexpression parameters:
+beta: Soft thresholding exponent, typically 5-6.  Setting to NULL (the default) causes the function to select the optimal beta between 1 and 12.
+dynamicCutMethod: "tree" or "hybrid".  The former is the 'classic' approach used at Sage Bionetworks, while the latter is the default for the UCLA-WGCNA approach.  The details are here:
+http://www.genetics.ucla.edu/labs/horvath/CoexpressionNetwork/BranchCutting/Supplement.pdf
+mergeModuleMethod:  "conn" or "eigen".  The former is the 'classic' approach used at Sage Bionetworks, in which a module's representative gene is the most highly CONNected one.  The latter is the default for the UCLA-WGCNA approach, in which the representative gene is the module's EIGENvector.
+
+The input to performCoexpressionAnalysis() is a data frame or matrix rather than a file, supporting usage when the data is not stored in a file form.
+
+performCoexpressionAnalysis() is itself a convenience wrapper around the two main analysis steps:  The first is the computation of all the gene-gene correlation coefficients and Topological Overlap. The second
+step is the clustering and module determination.  The first step is rote (little choice of algorithm variation) and compuationally intenstive while the second step is fast but invites exploration of a variety of algorithm settings.
+We therefore expose functions for these two steps:
+1) clusterGenes(expressionData, beta) # where 'beta==NULL' causes the function to determine the optimal value
+2) modulesFromGeneTree(
+				geneTree,
+				expressionData,
+				dichotCor=NULL,
+				tomDist=NULL,
+				dynamicCutMethod="tree",
+				mergeModuleMethod="conn")
+
+\end{document}
