@@ -30,7 +30,7 @@ cutree2 = function (tree, k = NULL, h = NULL)
 			stop(gettextf("elements of 'k' must be between 1 and %d",n), domain = NA)
 	}
 	
-	ans <- .Call("R_cutree", tree$merge, k, PACKAGE = "stats")
+	ans <- .Call(stats:::C_cutree, tree$merge, k, PACKAGE = "stats")
 	
 	if (length(k) == 1) {
 		ans <- as.vector(ans)
